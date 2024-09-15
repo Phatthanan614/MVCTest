@@ -2,8 +2,10 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit, QVBoxLayout, QMessageBox
 from controller.inputValid import validateInput
 from controller.checkCow import checkTeats
+from controller.readCSV import teats_list
 import tkinter as tk
 from tkinter import messagebox
+import random
 
 class MyWindow(QWidget):
     def __init__(self):
@@ -39,24 +41,25 @@ class MyWindow(QWidget):
                 # ok_button.pack(pady=10)
             if int(teats) == 4:
                 QMessageBox.information(self, 'Input', f'its Cow and have {teats} teats')
-                result = messagebox.askquestion("Custom Message Box", "want milk?", icon='question')
+                result = messagebox.askquestion("Cow have milk", "want milk?", icon='question')
                 if result == 'yes':
-                    QMessageBox.information(self, 'Input', f'its Cow')
+                    if random.random() < 0.05:
+                        # teats_list[inp_id].set(3)
+                        messagebox.showinfo("Milking...","Milking... Number of teats reduced to 3.")
+                    else:
+                        messagebox.showinfo("Milking...","Milking...")                    
+            elif int(teats) == 3:
+                QMessageBox.information(self, 'Cow don\'t have milk', f'Can\'t give milk')
+                if random.random() < 0.20:
+                    # teats_list[inp_id].set(4)
+                    messagebox.showinfo("Cow Detail", "Cow has 3 teats. Recovery... Number of teats restored to 4.")
                 else:
-                    print("No button clicked")
-            else:
-                QMessageBox.information(self, 'Input', f'cant give milk')
+                    messagebox.showinfo("Cow Detail", "Cow has 3 teats. No recovery.")
+            # self.update_teat_label()
             
         else:
             QMessageBox.information(self, 'Input', f'ID is invalid')
 
+
     def get_input_id(self):
         return self.input.text()
-    
-    def show_message_box():
-        result = messagebox.askquestion("Custom Message Box", "This is a custom message box with custom buttons.", icon='question')
-
-        if result == 'yes':
-            QMessageBox.information(self, 'Input', f'its Cow')
-        else:
-            print("No button clicked")
